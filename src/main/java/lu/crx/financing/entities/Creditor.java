@@ -1,17 +1,9 @@
 package lu.crx.financing.entities;
 
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.io.Serializable;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 /**
  * A creditor is a company that shipped some goods to the {@link Debtor}, issued an {@link Invoice} for the shipment
@@ -24,13 +16,14 @@ import lombok.ToString;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = {"name"})
 public class Creditor implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Basic(optional = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     /**
