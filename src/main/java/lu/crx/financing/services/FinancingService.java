@@ -90,6 +90,10 @@ public class FinancingService {
      * NOTE 2: when calculating the <STRONG>financing rate</STRONG> and Purchaser's <STRONG>interest in cents</STRONG>
      * (used for calculating the early payment value), it rounds both of those individually to Java's Math.round()
      * default behaviour: if result is between .1 to .4 - it rounds DOWN, if result is between .5 to .9 - it rounds UP
+     * <p>
+     * NOTE 3: Bellow method could've been implemented with fewer loops (streams), but it would've made the code
+     * harder to read and more prone to bugs, especially if we want to have the benefit of custom statuses.
+     * Therefore, it was a conscious decision to avoid looping less for the sake of little to no performance boost.
      */
     private void financeInvoices(List<Invoice> invoices, List<Purchaser> purchasers) {
         for (Invoice invoice : invoices) {
@@ -165,7 +169,7 @@ public class FinancingService {
         }
     }
 
-    private static int getFinancingRate(Map.Entry<Purchaser, PurchaserFinancingSettings> e, long financingTermInDays) {
+    private int getFinancingRate(Map.Entry<Purchaser, PurchaserFinancingSettings> e, long financingTermInDays) {
         return round((float) (e.getValue().getAnnualRateInBps() * financingTermInDays) /
                 BANKING_YEAR_IN_DAYS);
     }
