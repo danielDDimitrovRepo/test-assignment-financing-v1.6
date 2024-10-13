@@ -1,17 +1,13 @@
 package lu.crx.financing.services;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import lu.crx.financing.entities.Creditor;
-import lu.crx.financing.entities.Debtor;
-import lu.crx.financing.entities.Invoice;
-import lu.crx.financing.entities.Purchaser;
-import lu.crx.financing.entities.PurchaserFinancingSettings;
+import lu.crx.financing.entities.*;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -27,25 +23,20 @@ public class SeedingService {
     private Debtor debtor2;
     private Debtor debtor3;
 
-    private Purchaser purchaser1;
-    private Purchaser purchaser2;
-    private Purchaser purchaser3;
-
     public SeedingService(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
+    /**
+     * Decided to make creditors, purchasers and debtors unique and not introduce duplicates on subsequent application
+     * runs. Only the invoices are not unique and get re-populated on each run, but only the new ones are processed.
+     * <p>
+     * NOTE: In order to check if a result exists, call to getResultList is needed, rather than getSingleResult,
+     * which throws an exception if not found (not very intuitive)
+     */
     @Transactional
     public void seedMasterData() {
         log.info("Seeding master data");
-
-        /**
-         * Since creditors, purchasers and debtors are unique in the DB - we're checking if they already exist
-         * in case this is a subsequent application run.
-         *
-         * In order to check if a result exists, we need to call getResultList, rather than getSingleResult,
-         * which throws an exception if not found
-         */
 
         // creditors
         List<Creditor> coffeeBeansLlc = entityManager.createQuery("SELECT c FROM Creditor c WHERE c.name = ?1", Creditor.class)
