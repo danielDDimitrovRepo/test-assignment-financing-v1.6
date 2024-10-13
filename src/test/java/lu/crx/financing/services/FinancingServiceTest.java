@@ -52,6 +52,13 @@ class FinancingServiceTest {
         ReflectionTestUtils.setField(financingService, "invoicesBatchSize", 10);
     }
 
+    /**
+     * This test class could benefit from more test cases with more variation in data, but in order to fit into
+     * the time constraint on which I've commited to, I've implemented only the readme scenario (with negatives) here
+     * while validating most of the SeedingService examples manually. Hopefully it's enough to get an idea of the
+     * testing approach.
+     */
+
     @Test
     void givenReadmeExampleScenario_whenFinance_thenExpectInvoiceWithPurchaser2() {
         financingService.finance();
