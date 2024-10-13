@@ -1,18 +1,9 @@
 package lu.crx.financing.entities;
 
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.io.Serializable;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 /**
  * Financing settings set by the purchaser for a specific creditor.
@@ -24,6 +15,7 @@ import lombok.ToString;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = {"creditor"})
 public class PurchaserFinancingSettings implements Serializable {
 
     @Id
